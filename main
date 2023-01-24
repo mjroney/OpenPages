@@ -1,0 +1,29 @@
+import os
+import datetime
+import webbrowser
+
+# Get the current date and time
+now = datetime.datetime.now()
+
+# Get a list of open browser windows in Chrome and Edge
+chrome_windows = webbrowser.get(webbrowser.get('chrome').name).windows()
+edge_windows = webbrowser.get(webbrowser.get('edge').name).windows()
+
+# Combine the lists of open Chrome and Edge windows
+windows = chrome_windows + edge_windows
+
+# Get the URLs of the open web pages
+urls = [win.current_url for win in windows]
+
+# Get the path to the text file on the desktop
+file_path = os.path.expanduser('~/Desktop/Open Web Pages.txt')
+
+# Append the URLs to the text file
+with open(file_path, 'a') as file:
+    file.write(f'{now}\n')
+    for url in urls:
+        file.write(f'{url}\n')
+
+# Close all open browser windows
+for win in windows:
+    win.close()
